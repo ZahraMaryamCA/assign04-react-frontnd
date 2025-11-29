@@ -1,16 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import React from "react";
+import { Link } from "react-router-dom";
 
 function App() {
   return (
-    <div style={{ padding: "40px", fontFamily: "Arial" }}>
-      <h1>Hello Centennial College!</h1>
-      <p>This is my Assignment 4 React App deployed on Netlify.</p>
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>Welcome to Assignment 4 App</h1>
+      <div style={{ marginTop: "20px" }}>
+        <Link to="/register">
+          <button style={{ marginRight: "10px" }}>Register</button>
+        </Link>
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
+      </div>
     </div>
   );
 }
 
 export default App;
+
+
+

@@ -1,22 +1,36 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-export default function Welcome() {
-  const [message, setMessage] = useState("");
+function Welcome() {
+  const [name, setName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    axios.get("https://assign04-backend.onrender.com/api/welcome", {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    .then(res => setMessage(res.data.message))
-    .catch(err => setMessage("Unauthorized"));
-  }, []);
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    axios
+      .get("https://assign04-backend.onrender.com/api/welcome", { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => setName(localStorage.getItem("name") || res.data.name))
+      .catch(() => navigate("/login"));
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+    navigate("/"); // go back to main page
+  };
 
   return (
-    <div>
-      <h2>Welcome Page</h2>
-      <p>{message}</p>
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h2>Welcome, {name}!</h2>
+      <button onClick={handleLogout}>Log Out</button>
     </div>
   );
 }
+
+export default Welcome;
